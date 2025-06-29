@@ -1,0 +1,13 @@
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.env
+.venv/
+myenv/
+recommender_env/
+.ipynb_checkpoints/
+.DS_Store
+*.sqlite3
+*.log
+*.csv
