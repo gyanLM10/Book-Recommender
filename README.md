@@ -26,6 +26,15 @@ A Python project that builds an intelligent book recommendation system using LLM
      - Input natural language queries  
      - Filter by category and emotion  
      - View book covers, titles, descriptions, and scores
+   
+
+## 📊 Evaluation Metrics
+
+- Accuracy: 77.8%
+- Precision@k: 0.50
+- Recall@k: 0.80
+- F1@k: 0.58
+
 
 ---## 🚀 Run the App
 
