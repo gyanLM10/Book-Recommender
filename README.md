@@ -33,9 +33,9 @@ Accuracy: 77.8%
 
 Precision@k: 0.50
 
-Recall@k: 0.80
+Recall@k: 0.833
 
-F1@k: 0.58
+F1@k: 0.583
 
 🚀 Run the App Locally
 To run the app on your local machine, execute the main dashboard Python file using your Python environment.
