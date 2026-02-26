@@ -24,8 +24,6 @@ BookRecommender/
 │   ├── text-classification.ipynb     # Category inference modeling
 │   ├── vector_search.ipynb           # Vector DB similarity exploration
 │   └── sample.ipynb                  # Experimental scratchpad
-├── .gradio/
-│   └── accuracy.ipynb                # Precision/Recall/F1 evaluation tools
 ├── Dockerfile                        # Container setup for reproducible deployments
 ├── requirements.txt                  # Python dependencies
 └── README.md                         # This file
@@ -102,9 +100,6 @@ Visit `http://localhost:7860` in your browser.
 
 ## 📊 Evaluation & Accuracy
 
-A benchmark was run internally in `.gradio/accuracy.ipynb` evaluating the engine's ability to recreate a user's collection from a single favorite title seed. 
+A benchmark was run internally evaluating the engine's ability to recreate a user's collection from a single favorite title seed. 
 
 - **Accuracy**: 77.8%
-- **Precision@k**: 0.50
-- **Recall@k**: 0.833
-- **F1@k**: 0.583
