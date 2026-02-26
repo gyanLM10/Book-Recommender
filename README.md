@@ -11,15 +11,18 @@ To ensure separation of concerns, the project is organized into logical componen
 ```
 BookRecommender/
 ├── app/
-│   └── app.py                        # The main Gradio dashboard and semantic search logic  
+│   ├── app.py                        # The main Gradio dashboard, semantic search, and hybrid scoring  
+│   └── collaborative_filtering.py    # Matrix Factorization CF implementation
 ├── data/
 │   ├── books_cleaned.csv             # Processed dataset with core book metadata
 │   ├── books_with_categories.csv     # Extracted and simplified genre classifications
 │   ├── books_with_emotions.csv       # Emotion analysis scores (joy, fear, surprise, etc.)
 │   ├── tagged_description.txt        # Output corpus for vector embedding
+│   ├── user_ratings.csv              # Simulated user interaction dataset for CF
 │   └── .env.py                       # Data config vars
 ├── notebooks/
 │   ├── data_exploration.ipynb        # Data preparation and cleaning sandbox  
+│   ├── generate_ratings.py           # Script to simulate realistic user ratings
 │   ├── sentiment-analysis.ipynb      # Emotion classification modeling
 │   ├── text-classification.ipynb     # Category inference modeling
 │   ├── vector_search.ipynb           # Vector DB similarity exploration
@@ -37,9 +40,11 @@ BookRecommender/
    Stores text chunks in a `Chroma` vector database for blazing-fast similarity searches based on semantic meaning rather than exact keyword matches.
 3. **Sentiment & Emotion Awareness**: 
    Each book description has been pre-analyzed for emotional tones (e.g., Happy, Surprising, Angry, Suspenseful, Sad). Users can explicitly filter their recommendations to fit a specific mood.
-4. **Classification Filtering**: 
+4. **Hybrid Collaborative Filtering**:
+   Users can input an optional User ID (1-1000) to receive personalized recommendations combining semantic relevance (via Cross-Encoders) with Matrix Factorization (TruncatedSVD) over an interaction dataset.
+5. **Classification Filtering**: 
    Filters results dynamically based on `simple_categories`.
-5. **Interactive UI**: 
+6. **Interactive UI**: 
    A responsive, glassmorphism-themed Gradio gallery interface where users input natural language prompts like *"A story about forgiveness"* and immediately receive visually rich book covers and summaries.
 
 ---
