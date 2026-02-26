@@ -1,17 +1,21 @@
 import pandas as pd
 import numpy as np
+import os
 from dotenv import load_dotenv
 
 from langchain_community.document_loaders import TextLoader
-from langchain.embeddings import HuggingFaceEmbeddings
+from langchain_community.embeddings import HuggingFaceEmbeddings
 from langchain_text_splitters import CharacterTextSplitter
 from langchain_chroma import Chroma
 
 import gradio as gr
 
+current_dir = os.path.dirname(os.path.abspath(__file__))
+data_dir = os.path.join(current_dir, "..", "data")
+
 load_dotenv()
 
-books = pd.read_csv("books_with_emotions.csv")
+books = pd.read_csv(os.path.join(data_dir, "books_with_emotions.csv"))
 books["large_thumbnail"] = books["thumbnail"] + "&fife=w800"
 books["large_thumbnail"] = np.where(
     books["large_thumbnail"].isna(),
@@ -19,13 +23,13 @@ books["large_thumbnail"] = np.where(
     books["large_thumbnail"],
 )
 
-raw_documents = TextLoader("tagged_description.txt").load()
-text_splitter = CharacterTextSplitter(separator="\n", chunk_size=0, chunk_overlap=0)
+raw_documents = TextLoader(os.path.join(data_dir, "tagged_description.txt")).load()
+text_splitter = CharacterTextSplitter(separator="\n", chunk_size=2000, chunk_overlap=0)
 documents = text_splitter.split_documents(raw_documents)
 embedding_model = HuggingFaceEmbeddings(model_name="sentence-transformers/all-MiniLM-L6-v2")
 db_books = Chroma.from_documents(documents, embedding_model)
 
-
+db_books = Chroma.from_documents(documents, embedding_model)
 
 def retrieve_semantic_recommendations(
         query: str,
@@ -37,7 +41,7 @@ def retrieve_semantic_recommendations(
 
     recs = db_books.similarity_search(query, k=initial_top_k)
     books_list = [int(rec.page_content.strip('"').split()[0]) for rec in recs]
-    book_recs = books[books["isbn13"].isin(books_list)].head(initial_top_k)
+    book_recs = books[books["isbn13"].isin(books_list)].copy()
 
     if category != "All":
         book_recs = book_recs[book_recs["simple_categories"] == category].head(final_top_k)
